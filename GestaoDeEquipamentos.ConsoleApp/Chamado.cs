@@ -2,10 +2,10 @@
 {
     public class Chamado
     {
-        public int Id { get; set; }
-        public string Titulo { get; set; }
-        public string Descricao { get; set; }
-        public Equipamento Equipamento { get; set; }
-        public DateTime DataAbertura { get; set; }
+        public int id { get; set; }
+        public string titulo { get; set; }
+        public string descricao { get; set; }
+        public Equipamento equipamento { get; set; }
+        public DateTime dataAbertura { get; set; }
     }
 }
