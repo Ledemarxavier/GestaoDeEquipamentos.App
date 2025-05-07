@@ -1,4 +1,6 @@
-﻿namespace GestaoDeEquipamentos.ConsoleApp
+﻿using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
+
+namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado
 {
     public class Chamado
     {
