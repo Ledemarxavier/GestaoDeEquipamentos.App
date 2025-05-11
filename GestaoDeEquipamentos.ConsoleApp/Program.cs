@@ -10,6 +10,7 @@
             {
                 TelaChamado telaChamado = new TelaChamado();
                 TelaEquipamento telaEquipamento = new TelaEquipamento();
+                TelaFabricante telaFabricante = new TelaFabricante();
 
                 while (true)
                 {
@@ -18,6 +19,7 @@
                     Console.WriteLine("---------------------------------------------");
                     Console.WriteLine("1. Gerenciar Equipamentos");
                     Console.WriteLine("2. Gerenciar Chamados");
+                    Console.WriteLine("3. Gerenciar Fabricantes");
                     Console.WriteLine("0. Sair");
                     Console.Write("Opção: ");
 
@@ -31,6 +33,10 @@
 
                         case "2":
                             telaChamado.MenuChamados();
+                            break;
+
+                        case "3":
+                            telaFabricante.MenuFabricantes();
                             break;
 
                         case "0":

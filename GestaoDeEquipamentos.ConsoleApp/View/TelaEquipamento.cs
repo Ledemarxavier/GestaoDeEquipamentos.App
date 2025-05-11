@@ -199,7 +199,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             }
             catch
             {
-                Console.WriteLine($"\nErro ao excluir o equipamento.");
+                Console.WriteLine($"\nErro ao atualizar o equipamento.");
             }
 
             Console.ReadLine();
