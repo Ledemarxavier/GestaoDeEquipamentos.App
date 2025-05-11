@@ -135,7 +135,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             return equipamento;
         }
 
-        public void ListarEquipamentos()
+        public bool ListarEquipamentos()
         {
             Console.Clear();
             Console.WriteLine("Lista de Equipamentos");
@@ -146,6 +146,8 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             if (equipamentos == null || equipamentos.Count == 0)
             {
                 Console.WriteLine("\nNenhum equipamento cadastrado.");
+                Console.ReadLine();
+                return false;
             }
             else
             {
@@ -162,7 +164,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
 
             Console.WriteLine("\nPressione a tecla ENTER para continuar...");
             Console.ReadLine();
-            return;
+            return true;
         }
 
         public void AtualizarEquipamento()
@@ -172,6 +174,9 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             Console.WriteLine("---------------------");
 
             ListarEquipamentos();
+            if (!ListarEquipamentos())
+                Console.ReadLine();
+            return;
 
             Console.Write("\nDigite o ID do equipamento a editar: ");
             int id = Convert.ToInt32(Console.ReadLine());
@@ -183,7 +188,6 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
                 {
                     Console.WriteLine("Equipamento não encontrado.");
                     Console.ReadLine();
-                    return;
                 }
 
                 Console.WriteLine("\nDigite os novos dados:");
@@ -208,6 +212,9 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             Console.WriteLine("-----------------------");
 
             ListarEquipamentos();
+            if (!ListarEquipamentos())
+                Console.ReadLine();
+            return;
 
             Console.Write("\nDigite o ID do equipamento a ser excluído: ");
             int idSelecionado = Convert.ToInt32(Console.ReadLine());
