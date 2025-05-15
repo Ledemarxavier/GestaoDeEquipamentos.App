@@ -1,6 +1,8 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
+using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +11,14 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
 {
     public class TelaEquipamento
     {
-        public static EquipamentoRepository equipamentoRepository = new EquipamentoRepository();
+        private EquipamentoRepository equipamentoRepository;
+        private FabricanteRepository fabricanteRepository;
+
+        public TelaEquipamento(FabricanteRepository fabricanteRepository, EquipamentoRepository equipamentoRepository)
+        {
+            this.fabricanteRepository = fabricanteRepository;
+            this.equipamentoRepository = equipamentoRepository;
+        }
 
         public void MenuEquipamentos()
         {
@@ -74,10 +83,6 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             {
                 Console.WriteLine("Preço deve ser maior que zero.");
             }
-            else if (equipamento.fabricante.Length > 15)
-            {
-                Console.WriteLine("Fabricante deve ter no máximo 15 caracteres.");
-            }
             else
             {
                 equipamentoRepository.InserirEquipamento(equipamento);
@@ -89,50 +94,54 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
 
         public Equipamento ObterDados()
         {
-            Equipamento equipamento = new Equipamento();
-
             Console.Write("Nome: ");
-            equipamento.nome = Console.ReadLine();
+            string nome = Console.ReadLine();
 
-            Console.Write("Preço: ");
+            decimal preco;
             while (true)
             {
-                try
-                {
-                    string entrada = Console.ReadLine();
-                    decimal preco = Convert.ToDecimal(entrada);
-
-                    equipamento.preco = preco;
+                Console.Write("Preço: ");
+                if (decimal.TryParse(Console.ReadLine(), out preco) && preco > 0)
                     break;
-                }
-                catch
-                {
-                    Console.WriteLine("Entrada inválida. Digite um valor numérico.");
-                }
+                Console.WriteLine("Entrada inválida. Digite um valor numérico maior que zero.");
             }
 
             Console.Write("Número de Série: ");
-            equipamento.numeroSerie = Console.ReadLine();
+            string numeroSerie = Console.ReadLine();
 
-            Console.Write("Data de Fabricação (dd/mm/aaaa): ");
+            DateTime dataFabricacao;
             while (true)
             {
-                try
-                {
-                    string entrada = Console.ReadLine();
-                    DateTime data = Convert.ToDateTime(entrada);
-                    equipamento.dataFabricacao = data;
-                    break;
-                }
-                catch
-                {
-                    Console.WriteLine("Data inválida. Digite novamente.");
-                }
-            }
-            Console.Write("Fabricante: ");
-            equipamento.fabricante = Console.ReadLine();
+                Console.Write("Data de Fabricação (dd/mm/aaaa): ");
 
-            return equipamento;
+                if (DateTime.TryParse(Console.ReadLine(), out dataFabricacao))
+                    break;
+                Console.WriteLine("Data inválida. Digite novamente.");
+            }
+            var fabricantes = fabricanteRepository.Listar();
+
+            if (fabricantes.Count == 0)
+            {
+                Console.WriteLine("Nenhum fabricante cadastrado. Cadastre um fabricante primeiro.");
+                return null;
+            }
+            Console.WriteLine("\nLista de fabricantes: ");
+            foreach (var f in fabricantes)
+            {
+                Console.WriteLine($"ID: {f.id} | Nome: {f.nome}");
+            }
+            Console.Write("Digite o id do fabricante: ");
+
+            int idFabricante = Convert.ToInt32(Console.ReadLine());
+            Fabricante fabricanteSelecionado = fabricanteRepository.ObterPorId(idFabricante);
+
+            if (fabricanteSelecionado == null)
+            {
+                Console.WriteLine("Fabricante não encontrado.");
+                return null;
+            }
+
+            return new Equipamento(nome, preco, numeroSerie, dataFabricacao, fabricanteSelecionado);
         }
 
         public bool ListarEquipamentos()
@@ -173,10 +182,9 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             Console.WriteLine("Edição de Equipamento");
             Console.WriteLine("---------------------");
 
-            ListarEquipamentos();
-            if (!ListarEquipamentos())
-                Console.ReadLine();
-            return;
+            bool temEquipamentos = ListarEquipamentos();
+            if (!temEquipamentos)
+                return;
 
             Console.Write("\nDigite o ID do equipamento a editar: ");
             int id = Convert.ToInt32(Console.ReadLine());
@@ -211,10 +219,9 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             Console.WriteLine("Exclusão de Equipamento");
             Console.WriteLine("-----------------------");
 
-            ListarEquipamentos();
-            if (!ListarEquipamentos())
-                Console.ReadLine();
-            return;
+            bool temEquipamentos = ListarEquipamentos();
+            if (!temEquipamentos)
+                return;
 
             Console.Write("\nDigite o ID do equipamento a ser excluído: ");
             int idSelecionado = Convert.ToInt32(Console.ReadLine());

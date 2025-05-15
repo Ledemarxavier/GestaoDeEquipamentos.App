@@ -1,5 +1,6 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
 using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
+using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,13 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
 {
     public class TelaChamado
     {
-        public static EquipamentoRepository equipamentoRepository = TelaEquipamento.equipamentoRepository;
-
-        public Chamado chamado = new Chamado();
         public ChamadoRepository chamadoRepository = new ChamadoRepository();
+        public EquipamentoRepository equipamentoRepository;
+
+        public TelaChamado(EquipamentoRepository equipamentoRepository)
+        {
+            this.equipamentoRepository = equipamentoRepository;
+        }
 
         public void MenuChamados()
         {
@@ -162,13 +166,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
                             Console.WriteLine("Este equipamento já está vinculado a um chamado. Selecione outro.");
                             continue;
                         }
-
-                        Chamado chamado = new Chamado();
-                        chamado.titulo = titulo;
-                        chamado.descricao = descricao;
-                        chamado.dataAbertura = dataAbertura;
-                        chamado.equipamento = equipamentoSelecionado;
-
+                        Chamado chamado = new Chamado(titulo, descricao, equipamentoSelecionado, dataAbertura);
                         return chamado;
                     }
                     else

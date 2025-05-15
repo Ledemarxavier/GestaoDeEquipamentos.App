@@ -14,5 +14,22 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloFabricante
         public string email { get; set; }
 
         public string telefone { get; set; }
+
+        public Fabricante(string nome, string email, string telefone)
+        {
+            this.nome = nome;
+            this.email = email;
+            this.telefone = telefone;
+        }
+
+        public void DefinirId(int id)
+        {
+            this.id = id;
+        }
+
+        public override string ToString()
+        {
+            return nome;
+        }
     }
 }

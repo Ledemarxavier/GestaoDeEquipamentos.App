@@ -10,7 +10,12 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
 {
     public class TelaFabricante
     {
-        public static FabricanteRepository fabricanteRepository = new FabricanteRepository();
+        public FabricanteRepository fabricanteRepository;
+
+        public TelaFabricante(FabricanteRepository fabricanteRepository)
+        {
+            this.fabricanteRepository = fabricanteRepository;
+        }
 
         public void MenuFabricantes()
         {
@@ -86,19 +91,17 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
 
         public Fabricante ObterDados()
         {
-            Fabricante fabricante = new Fabricante();
-
             Console.Write("Nome: ");
-            fabricante.nome = Console.ReadLine();
+            string nome = Console.ReadLine();
 
             Console.Write("email: ");
 
-            fabricante.email = Console.ReadLine();
+            string email = Console.ReadLine();
 
             Console.Write("telefone: ");
-            fabricante.telefone = Console.ReadLine();
+            string telefone = Console.ReadLine();
 
-            return fabricante;
+            return new Fabricante(nome, email, telefone);
         }
 
         public bool ListarFabricantes()
@@ -120,10 +123,10 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
                 Console.WriteLine("{0,-5} | {1,-20} | {2,-10} | {3,-15}",
                     "Id", "Nome", "Email", "Telefone");
 
-                foreach (var e in fabricante)
+                foreach (var f in fabricante)
                 {
                     Console.WriteLine("{0,-5} | {1,-20} | {2,-10:C2} | {3,-15}",
-                        e.id, e.nome, e.email, e.telefone);
+                        f.id, f.nome, f.email, f.telefone);
                 }
             }
 

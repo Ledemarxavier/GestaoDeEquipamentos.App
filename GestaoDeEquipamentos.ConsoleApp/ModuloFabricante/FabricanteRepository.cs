@@ -8,24 +8,23 @@ using System.Threading.Tasks;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloFabricante
 {
-    public class FabricanteRepository()
+    public class FabricanteRepository
     {
-        public List<Fabricante> fabricantes = new List<Fabricante>();
-        public int nextId = 1;
+        private List<Fabricante> fabricantes = new List<Fabricante>();
+        private int nextId = 1;
 
         public void InserirFabricante(Fabricante fabricante)
         {
-            fabricante.id = nextId++;
+            fabricante.DefinirId(nextId++);
             fabricantes.Add(fabricante);
         }
 
         public List<Fabricante> Listar()
         {
-            if (fabricantes != null)
-            {
-                return fabricantes;
-            }
-            return null;
+            if (fabricantes == null)
+                return new List<Fabricante>();
+
+            return fabricantes;
         }
 
         public Fabricante ObterPorId(int id)

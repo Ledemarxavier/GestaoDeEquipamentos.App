@@ -4,8 +4,8 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado
 {
     public class ChamadoRepository
     {
-        public List<Chamado> chamados = new List<Chamado>();
-        public int nextId = 1;
+        private List<Chamado> chamados = new List<Chamado>();
+        private int nextId = 1;
 
         public void InserirChamado(Chamado chamado)
         {

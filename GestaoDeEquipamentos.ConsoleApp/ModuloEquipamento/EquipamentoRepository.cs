@@ -1,31 +1,31 @@
-﻿namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento
+﻿using GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
+
+namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento
 {
-    public class EquipamentoRepository()
+    public class EquipamentoRepository
     {
-        public List<Equipamento> equipamentos = new List<Equipamento>();
-        public int nextId = 1;
+        private List<Equipamento> equipamentos = new List<Equipamento>();
+        private int nextId = 1;
 
         public void InserirEquipamento(Equipamento equipamento)
         {
-            equipamento.id = nextId++;
+            equipamento.DefinirId(nextId++);
             equipamentos.Add(equipamento);
         }
 
         public List<Equipamento> Listar()
         {
-            if (equipamentos != null)
-            {
-                return equipamentos;
-            }
-            return null;
+            return equipamentos;
         }
 
         public Equipamento ObterPorId(int id)
         {
-            foreach (var equipamento in equipamentos)
+            foreach (Equipamento equipamento in equipamentos)
             {
                 if (equipamento.id == id)
+                {
                     return equipamento;
+                }
             }
             return null;
         }
