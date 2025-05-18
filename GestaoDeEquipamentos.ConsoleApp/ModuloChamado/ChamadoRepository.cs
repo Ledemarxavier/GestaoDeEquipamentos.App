@@ -9,7 +9,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado
 
         public void InserirChamado(Chamado chamado)
         {
-            chamado.id = nextId++;
+            chamado.DefinirId(nextId++);
             chamados.Add(chamado);
         }
 
@@ -39,10 +39,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado
                 if (chamado != null)
                     return false;
                 {
-                    chamadoSelecionado.titulo = chamadoAtualizado.titulo;
-                    chamadoSelecionado.descricao = chamadoAtualizado.descricao;
-                    chamadoSelecionado.equipamento = chamadoAtualizado.equipamento;
-                    chamadoSelecionado.dataAbertura = chamadoAtualizado.dataAbertura;
+                    chamadoSelecionado.Atualizar(chamadoAtualizado);
                     return true;
                 }
             }

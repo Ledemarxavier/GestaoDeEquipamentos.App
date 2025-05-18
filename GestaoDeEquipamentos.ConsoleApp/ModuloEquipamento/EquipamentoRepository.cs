@@ -37,11 +37,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento
             if (equipamentoSelecionado == null)
                 return false;
 
-            equipamentoSelecionado.nome = equipamentoAtualizado.nome;
-            equipamentoSelecionado.preco = equipamentoAtualizado.preco;
-            equipamentoSelecionado.numeroSerie = equipamentoAtualizado.numeroSerie;
-            equipamentoSelecionado.dataFabricacao = equipamentoAtualizado.dataFabricacao;
-            equipamentoSelecionado.fabricante = equipamentoAtualizado.fabricante;
+            equipamentoSelecionado.Atualizar(equipamentoAtualizado);
 
             return true;
         }

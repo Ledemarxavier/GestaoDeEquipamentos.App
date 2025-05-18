@@ -72,20 +72,23 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
 
             Fabricante fabricante = ObterDados();
 
-            if (fabricante.nome.Length > 10)
-            {
-                Console.WriteLine("Nome deve ter no máximo 10 caracteres.");
-            }
-            else if (fabricante.email.Length > 15)
-            {
-                Console.WriteLine("Fabricante deve ter no máximo 15 caracteres.");
-            }
-            else
-            {
-                fabricanteRepository.InserirFabricante(fabricante);
-                Console.WriteLine("\nFabricante cadastrado com sucesso!");
-            }
+            string erros = fabricante.Validar();
 
+            if (erros.Length > 0)
+            {
+                Console.WriteLine();
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(erros);
+                Console.ResetColor();
+
+                Console.Write("\nDigite ENTER para continuar...");
+                Console.ReadLine();
+                CadastrarFabricante();
+                return;
+            }
+            fabricanteRepository.InserirFabricante(fabricante);
+            Console.WriteLine("\nFabricante cadastrado com sucesso!");
             Console.ReadLine();
         }
 

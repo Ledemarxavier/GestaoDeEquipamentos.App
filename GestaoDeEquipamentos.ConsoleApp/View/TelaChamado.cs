@@ -71,17 +71,22 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             Console.WriteLine("-------------------");
 
             Chamado chamado = ObterDados();
-
-            if (chamado != null)
+            string erros = chamado.Validar();
+            if (erros.Length > 0)
             {
-                chamadoRepository.InserirChamado(chamado);
-                Console.WriteLine("\nChamado cadastrado com sucesso!");
-            }
-            else
-            {
-                Console.WriteLine("\nCadastro de chamado cancelado.");
-            }
+                Console.WriteLine();
 
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(erros);
+                Console.ResetColor();
+
+                Console.Write("\nDigite ENTER para continuar...");
+                Console.ReadLine();
+                CadastrarChamado();
+                return;
+            }
+            chamadoRepository.InserirChamado(chamado);
+            Console.WriteLine("\nChamado cadastrado com sucesso!");
             Console.ReadLine();
         }
 
@@ -95,7 +100,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
 
             if (chamados == null || chamados.Count == 0)
             {
-                Console.WriteLine("\nNenhum chamado cadastrado.");
+                Console.WriteLine("\nNenhum chamado cadastrado!");
                 Console.ReadLine();
                 return false;
             }
@@ -129,56 +134,47 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             DateTime dataAbertura = DateTime.Now;
 
             var equipamentos = equipamentoRepository.Listar();
-            if (equipamentos == null)
+            if (equipamentos.Count == 0)
             {
-                Console.WriteLine("\nNenhum equipamento cadastrado.");
-                Console.WriteLine("Pressione ENTER para voltar...");
+                Console.WriteLine("\nNenhum equipamento cadastrado. Cadastre um equipamento primeiro");
+
                 Console.ReadLine();
                 return null;
             }
-            VisualizarEquipamentos();
-
-            while (true)
+            Console.WriteLine("\nLista de equipamantos: ");
+            foreach (var e in equipamentos)
             {
-                Console.Write("\nDigite o ID do equipamento que deseja selecionar: ");
-                string input = Console.ReadLine();
+                Console.WriteLine($"ID: {e.id} | Nome: {e.nome}");
+            }
 
-                if (int.TryParse(input, out int idEquipamento))
+            Console.Write("\nDigite o ID do equipamento que deseja selecionar: ");
+            string input = Console.ReadLine();
+            int idEquipamento = 0;
+            int.TryParse(input, out idEquipamento);
+
+            Equipamento equipamentoSelecionado = equipamentoRepository.ObterPorId(idEquipamento);
+
+            if (equipamentoSelecionado != null)
+            {
+                bool jaUsado = false;
+
+                List<Chamado> chamados = chamadoRepository.ListarChamados();
+                foreach (Chamado c in chamados)
                 {
-                    Equipamento equipamentoSelecionado = equipamentoRepository.ObterPorId(idEquipamento);
-
-                    if (equipamentoSelecionado != null)
+                    if (c.equipamento.id == equipamentoSelecionado.id)
                     {
-                        bool jaUsado = false;
-
-                        List<Chamado> chamados = chamadoRepository.ListarChamados();
-                        foreach (Chamado c in chamados)
-                        {
-                            if (c.equipamento.id == equipamentoSelecionado.id)
-                            {
-                                jaUsado = true;
-                                break;
-                            }
-                        }
-
-                        if (jaUsado)
-                        {
-                            Console.WriteLine("Este equipamento já está vinculado a um chamado. Selecione outro.");
-                            continue;
-                        }
-                        Chamado chamado = new Chamado(titulo, descricao, equipamentoSelecionado, dataAbertura);
-                        return chamado;
-                    }
-                    else
-                    {
-                        Console.WriteLine(" não encontrado. Tente novamente.");
+                        jaUsado = true;
+                        break;
                     }
                 }
-                else
+
+                if (jaUsado)
                 {
-                    Console.WriteLine("ID inválido. Digite apenas números.");
+                    Console.WriteLine("Este equipamento já está vinculado a um chamado. Selecione outro.");
+                    return null;
                 }
             }
+            return new Chamado(titulo, descricao, equipamentoSelecionado, dataAbertura);
         }
 
         public bool VisualizarEquipamentos()

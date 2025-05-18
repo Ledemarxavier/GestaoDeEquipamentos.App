@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace GestaoDeEquipamentos.ConsoleApp.View
 {
@@ -75,19 +76,23 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
 
             Equipamento equipamento = ObterDados();
 
-            if (equipamento.nome.Length > 10)
+            string erros = equipamento.Validar();
+
+            if (erros.Length > 0)
             {
-                Console.WriteLine("Nome deve ter no máximo 10 caracteres.");
+                Console.WriteLine();
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(erros);
+                Console.ResetColor();
+
+                Console.Write("\nDigite ENTER para continuar...");
+                Console.ReadLine();
+                CadastrarEquipamento();
+                return;
             }
-            else if (equipamento.preco <= 0)
-            {
-                Console.WriteLine("Preço deve ser maior que zero.");
-            }
-            else
-            {
-                equipamentoRepository.InserirEquipamento(equipamento);
-                Console.WriteLine("\nEquipamento cadastrado com sucesso!");
-            }
+            equipamentoRepository.InserirEquipamento(equipamento);
+            Console.WriteLine("\nEquipamento cadastrado com sucesso!");
 
             Console.ReadLine();
         }
@@ -97,49 +102,39 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             Console.Write("Nome: ");
             string nome = Console.ReadLine();
 
+            Console.Write("Preço: ");
+            string entradaPreco = Console.ReadLine();
             decimal preco;
-            while (true)
-            {
-                Console.Write("Preço: ");
-                if (decimal.TryParse(Console.ReadLine(), out preco) && preco > 0)
-                    break;
-                Console.WriteLine("Entrada inválida. Digite um valor numérico maior que zero.");
-            }
+            decimal.TryParse(entradaPreco, out preco);
 
             Console.Write("Número de Série: ");
             string numeroSerie = Console.ReadLine();
 
+            Console.Write("Data de Fabricação (dd/mm/aaaa): ");
+            string entradaData = Console.ReadLine();
             DateTime dataFabricacao;
-            while (true)
-            {
-                Console.Write("Data de Fabricação (dd/mm/aaaa): ");
+            DateTime.TryParse(entradaData, out dataFabricacao);
 
-                if (DateTime.TryParse(Console.ReadLine(), out dataFabricacao))
-                    break;
-                Console.WriteLine("Data inválida. Digite novamente.");
-            }
             var fabricantes = fabricanteRepository.Listar();
 
             if (fabricantes.Count == 0)
             {
                 Console.WriteLine("Nenhum fabricante cadastrado. Cadastre um fabricante primeiro.");
+                Console.ReadLine();
                 return null;
             }
+
             Console.WriteLine("\nLista de fabricantes: ");
             foreach (var f in fabricantes)
             {
                 Console.WriteLine($"ID: {f.id} | Nome: {f.nome}");
             }
             Console.Write("Digite o id do fabricante: ");
+            string entradaIdFabricante = Console.ReadLine();
 
-            int idFabricante = Convert.ToInt32(Console.ReadLine());
+            int idFabricante = 0;
+            int.TryParse(entradaIdFabricante, out idFabricante);
             Fabricante fabricanteSelecionado = fabricanteRepository.ObterPorId(idFabricante);
-
-            if (fabricanteSelecionado == null)
-            {
-                Console.WriteLine("Fabricante não encontrado.");
-                return null;
-            }
 
             return new Equipamento(nome, preco, numeroSerie, dataFabricacao, fabricanteSelecionado);
         }
