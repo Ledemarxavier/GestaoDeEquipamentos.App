@@ -1,13 +1,15 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
+﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
+using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 using System.Net.Mail;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado
 {
-    public class Chamado
+    public class Chamado : EntidadeBase
     {
-        public int id { get; private set; }
+        // public int id { get; private set; }
         public string titulo { get; set; }
+
         public string descricao { get; set; }
         public Equipamento equipamento { get; set; }
         public DateTime dataAbertura { get; set; }
@@ -36,15 +38,18 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado
             return erros;
         }
 
-        public void Atualizar(Chamado chamadoAtualizado)
+        public override void AtualizarRegistro(EntidadeBase registroAtualizado)
         {
-            this.titulo = chamadoAtualizado.titulo;
-            this.descricao = chamadoAtualizado.descricao;
-            this.equipamento = chamadoAtualizado.equipamento;
-            this.dataAbertura = chamadoAtualizado.dataAbertura;
+            Chamado equipamentoAtualizado = (Chamado)registroAtualizado;
+
+            this.titulo = equipamentoAtualizado.titulo;
+            this.descricao = equipamentoAtualizado.descricao;
+            this.equipamento = equipamentoAtualizado.equipamento;
+
+            this.dataAbertura = equipamentoAtualizado.dataAbertura;
         }
 
-        public void DefinirId(int id)
+        /*public void DefinirId(int id)
         {
             this.id = id;
         }
@@ -52,6 +57,6 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado
         public override string ToString()
         {
             return titulo;
-        }
+        }*/
     }
 }

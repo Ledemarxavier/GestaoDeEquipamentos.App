@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloFabricante
 {
-    public class Fabricante
+    public class Fabricante : EntidadeBase
     {
-        public int id { get; set; }
         public string nome { get; set; }
 
         public string email { get; set; }
@@ -21,11 +17,6 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloFabricante
             this.nome = nome;
             this.email = email;
             this.telefone = telefone;
-        }
-
-        public void DefinirId(int id)
-        {
-            this.id = id;
         }
 
         public string Validar()
@@ -48,16 +39,13 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloFabricante
             return erros;
         }
 
-        public void Atualizar(Fabricante fabricanteAtualizado)
+        public override void AtualizarRegistro(EntidadeBase registroAtualizado)
         {
+            Fabricante fabricanteAtualizado = (Fabricante)registroAtualizado;
+
             this.nome = fabricanteAtualizado.nome;
             this.email = fabricanteAtualizado.email;
             this.telefone = fabricanteAtualizado.telefone;
-        }
-
-        public override string ToString()
-        {
-            return nome;
         }
     }
 }

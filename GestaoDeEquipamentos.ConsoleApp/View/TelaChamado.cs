@@ -1,22 +1,22 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
+﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
+using GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
 using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
-using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection.Metadata.Ecma335;
 
 namespace GestaoDeEquipamentos.ConsoleApp.View
 {
     public class TelaChamado
     {
-        public ChamadoRepository chamadoRepository = new ChamadoRepository();
+        private ChamadoRepository chamadoRepository;
         public EquipamentoRepository equipamentoRepository;
 
-        public TelaChamado(EquipamentoRepository equipamentoRepository)
+        public TelaChamado(EquipamentoRepository equipamentoRepository, ChamadoRepository chamadoRepository)
         {
             this.equipamentoRepository = equipamentoRepository;
+            this.chamadoRepository = chamadoRepository;
         }
 
         public void MenuChamados()
@@ -85,7 +85,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
                 CadastrarChamado();
                 return;
             }
-            chamadoRepository.InserirChamado(chamado);
+            chamadoRepository.CadastrarRegistro(chamado);
             Console.WriteLine("\nChamado cadastrado com sucesso!");
             Console.ReadLine();
         }
@@ -96,7 +96,8 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             Console.WriteLine("Lista de Chamados");
             Console.WriteLine("-----------------");
 
-            var chamados = chamadoRepository.ListarChamados();
+            List<EntidadeBase> registros = chamadoRepository.SelecionarRegistros();
+            List<Chamado> chamados = registros.OfType<Chamado>().ToList();
 
             if (chamados == null || chamados.Count == 0)
             {
@@ -109,7 +110,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
                 Console.WriteLine("{0,-5} | {1,-20} | {2,-20} | {3,-20} | {4,-12} | {5,-10}",
                 "ID", "Título", "Descrição", "Equipamento", "Data Abertura", "Dias Aberto");
 
-                foreach (var chamado in chamadoRepository.ListarChamados())
+                foreach (Chamado chamado in chamados)
                 {
                     int diasAberto = (DateTime.Today - chamado.dataAbertura).Days;
                     Console.WriteLine("{0,-5} | {1,-20} | {2,-20} | {3,-20} | {4,-12:dd/MM/yyyy} | {5,-10}",
@@ -133,7 +134,9 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
 
             DateTime dataAbertura = DateTime.Now;
 
-            var equipamentos = equipamentoRepository.Listar();
+            List<EntidadeBase> registros = equipamentoRepository.SelecionarRegistros();
+            List<Equipamento> equipamentos = registros.OfType<Equipamento>().ToList();
+
             if (equipamentos.Count == 0)
             {
                 Console.WriteLine("\nNenhum equipamento cadastrado. Cadastre um equipamento primeiro");
@@ -141,6 +144,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
                 Console.ReadLine();
                 return null;
             }
+
             Console.WriteLine("\nLista de equipamantos: ");
             foreach (var e in equipamentos)
             {
@@ -152,16 +156,17 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             int idEquipamento = 0;
             int.TryParse(input, out idEquipamento);
 
-            Equipamento equipamentoSelecionado = equipamentoRepository.ObterPorId(idEquipamento);
+            var idSelecionado = equipamentoRepository.SelecionarRegistroPorId(idEquipamento);
 
-            if (equipamentoSelecionado != null)
+            if (idSelecionado != null)
             {
                 bool jaUsado = false;
 
-                List<Chamado> chamados = chamadoRepository.ListarChamados();
+                List<Chamado> chamados = chamadoRepository.SelecionarRegistros().OfType<Chamado>().ToList();
+
                 foreach (Chamado c in chamados)
                 {
-                    if (c.equipamento.id == equipamentoSelecionado.id)
+                    if (c.equipamento.id == idSelecionado.id)
                     {
                         jaUsado = true;
                         break;
@@ -174,7 +179,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
                     return null;
                 }
             }
-            return new Chamado(titulo, descricao, equipamentoSelecionado, dataAbertura);
+            return new Chamado(titulo, descricao, (Equipamento)idSelecionado, dataAbertura);
         }
 
         public bool VisualizarEquipamentos()
@@ -183,7 +188,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             Console.WriteLine("Lista de Equipamentos Disponíveis");
             Console.WriteLine("---------------------------------");
 
-            List<Equipamento> equipamentos = equipamentoRepository.Listar();
+            List<Equipamento> equipamentos = equipamentoRepository.SelecionarRegistros().OfType<Equipamento>().ToList();
 
             if (equipamentos == null)
             {
@@ -197,7 +202,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
                     "ID", "Nome", "Nº Série", "Fabricante", "Data Fabricação");
                 Console.WriteLine(new string('-', 80));
 
-                foreach (var equipamento in equipamentos)
+                foreach (Equipamento equipamento in equipamentos)
                 {
                     Console.WriteLine("{0,-5} | {1,-20} | {2,-15} | {3,-15} | {4,-12:dd/MM/yyyy}",
                         equipamento.id,
@@ -225,7 +230,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
 
             try
             {
-                var equipamentoExistente = equipamentoRepository.ObterPorId(id);
+                var equipamentoExistente = equipamentoRepository.SelecionarRegistroPorId(id);
                 if (equipamentoExistente == null)
                 {
                     Console.WriteLine("Chamado não encontrado.");
@@ -236,7 +241,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
                 Console.WriteLine("\nDigite os novos dados:");
                 Chamado dadosAtualizados = ObterDados();
 
-                chamadoRepository.AtualizarChamado(id, dadosAtualizados);
+                chamadoRepository.EditarRegistro(id, dadosAtualizados);
 
                 Console.WriteLine("\nChamado atualizado com sucesso!");
             }
@@ -261,7 +266,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             Console.Write("\nDigite o ID do chamado a ser excluído: ");
             int idSelecionado = Convert.ToInt32(Console.ReadLine());
 
-            var chamadoDeletar = chamadoRepository.ObterPorId(idSelecionado);
+            var chamadoDeletar = chamadoRepository.SelecionarRegistroPorId(idSelecionado);
 
             if (chamadoDeletar == null)
             {
@@ -269,7 +274,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             }
             else
             {
-                bool sucesso = chamadoRepository.ExcluirChamado(idSelecionado);
+                bool sucesso = chamadoRepository.ExcluirRegistro(idSelecionado);
                 if (sucesso)
                     Console.WriteLine("\nChamado excluído com sucesso!");
                 else

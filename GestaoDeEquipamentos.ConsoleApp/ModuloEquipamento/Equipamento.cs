@@ -1,11 +1,11 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
+using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
 using System.Net.Mail;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento
 {
-    public class Equipamento
+    public class Equipamento : EntidadeBase
     {
-        public int id { get; private set; }
         public string nome { get; set; }
         public decimal preco { get; set; }
         public string numeroSerie { get; set; }
@@ -42,18 +42,15 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento
             return erros;
         }
 
-        public void Atualizar(Equipamento equipamentoAtualizado)
+        public override void AtualizarRegistro(EntidadeBase registroAtualizado)
         {
+            Equipamento equipamentoAtualizado = (Equipamento)registroAtualizado;
+
             this.nome = equipamentoAtualizado.nome;
             this.preco = equipamentoAtualizado.preco;
             this.numeroSerie = equipamentoAtualizado.numeroSerie;
-            this.dataFabricacao = equipamentoAtualizado.dataFabricacao;
             this.fabricante = equipamentoAtualizado.fabricante;
-        }
-
-        public void DefinirId(int id)
-        {
-            this.id = id;
+            this.dataFabricacao = equipamentoAtualizado.dataFabricacao;
         }
     }
 }

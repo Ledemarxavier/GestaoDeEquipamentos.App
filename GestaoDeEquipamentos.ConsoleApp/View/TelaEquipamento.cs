@@ -1,12 +1,9 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
+using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+
+//using static System.Net.Mime.MediaTypeNames;
 
 namespace GestaoDeEquipamentos.ConsoleApp.View
 {
@@ -76,6 +73,9 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
 
             Equipamento equipamento = ObterDados();
 
+            if (equipamento == null)
+                return;
+
             string erros = equipamento.Validar();
 
             if (erros.Length > 0)
@@ -91,7 +91,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
                 CadastrarEquipamento();
                 return;
             }
-            equipamentoRepository.InserirEquipamento(equipamento);
+            equipamentoRepository.CadastrarRegistro(equipamento);
             Console.WriteLine("\nEquipamento cadastrado com sucesso!");
 
             Console.ReadLine();
@@ -115,7 +115,8 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             DateTime dataFabricacao;
             DateTime.TryParse(entradaData, out dataFabricacao);
 
-            var fabricantes = fabricanteRepository.Listar();
+            List<EntidadeBase> registros = fabricanteRepository.SelecionarRegistros();
+            List<Fabricante> fabricantes = registros.OfType<Fabricante>().ToList();
 
             if (fabricantes.Count == 0)
             {
@@ -134,9 +135,9 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
 
             int idFabricante = 0;
             int.TryParse(entradaIdFabricante, out idFabricante);
-            Fabricante fabricanteSelecionado = fabricanteRepository.ObterPorId(idFabricante);
+            EntidadeBase registro = fabricanteRepository.SelecionarRegistroPorId(idFabricante);
 
-            return new Equipamento(nome, preco, numeroSerie, dataFabricacao, fabricanteSelecionado);
+            return new Equipamento(nome, preco, numeroSerie, dataFabricacao, (Fabricante)registro);
         }
 
         public bool ListarEquipamentos()
@@ -145,7 +146,9 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             Console.WriteLine("Lista de Equipamentos");
             Console.WriteLine("---------------------");
 
-            var equipamentos = equipamentoRepository.Listar();
+            List<EntidadeBase> registros = equipamentoRepository.SelecionarRegistros();
+
+            List<Equipamento> equipamentos = registros.OfType<Equipamento>().ToList();
 
             if (equipamentos == null || equipamentos.Count == 0)
             {
@@ -162,7 +165,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
                 {
                     Console.WriteLine("{0,-5} | {1,-20} | {2,-10:C2} | {3,-15} | {4,-15} | {5,-12:dd/MM/yyyy}",
                         e.id, e.nome, e.preco, e.numeroSerie,
-                        e.fabricante, e.dataFabricacao);
+                        e.fabricante.nome, e.dataFabricacao);
                 }
             }
 
@@ -186,17 +189,18 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
 
             try
             {
-                var equipamentoExistente = equipamentoRepository.ObterPorId(id);
+                var equipamentoExistente = equipamentoRepository.SelecionarRegistroPorId(id);
                 if (equipamentoExistente == null)
                 {
                     Console.WriteLine("Equipamento não encontrado.");
                     Console.ReadLine();
+                    return;
                 }
 
                 Console.WriteLine("\nDigite os novos dados:");
                 Equipamento dadosAtualizados = ObterDados();
 
-                equipamentoRepository.EditarEquipamento(id, dadosAtualizados);
+                equipamentoRepository.EditarRegistro(id, dadosAtualizados);
 
                 Console.WriteLine("\nEquipamento atualizado com sucesso!");
             }
@@ -221,7 +225,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             Console.Write("\nDigite o ID do equipamento a ser excluído: ");
             int idSelecionado = Convert.ToInt32(Console.ReadLine());
 
-            var equipamentoDeletar = equipamentoRepository.ObterPorId(idSelecionado);
+            var equipamentoDeletar = equipamentoRepository.SelecionarRegistroPorId(idSelecionado);
 
             if (equipamentoDeletar == null)
             {
@@ -229,7 +233,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             }
             else
             {
-                bool sucesso = equipamentoRepository.ExcluirEquipamento(idSelecionado);
+                bool sucesso = equipamentoRepository.ExcluirRegistro(idSelecionado);
                 if (sucesso)
                     Console.WriteLine("\nEquipamento excluído com sucesso!");
                 else

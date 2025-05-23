@@ -1,6 +1,7 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
 using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
+using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
 using GestaoDeEquipamentos.ConsoleApp.View;
 using System;
 
@@ -11,13 +12,14 @@ namespace GestaoDeEquipamentos.ConsoleApp
         private static void Main(string[] args)
         {
             FabricanteRepository fabricanteRepository = new FabricanteRepository();
-            EquipamentoRepository equipamentoRepository = new EquipamentoRepository();
-            ChamadoRepository chamadoRepository = new ChamadoRepository();
+            EquipamentoRepository equipamentoRepository = new();
+            ChamadoRepository chamadoRepository = new();
 
-            TelaFabricante telaFabricante = new TelaFabricante(fabricanteRepository);
-            TelaEquipamento telaEquipamento = new TelaEquipamento(fabricanteRepository, equipamentoRepository);
+            TelaFabricante telaFabricante = new(fabricanteRepository);
+            TelaEquipamento telaEquipamento = new(fabricanteRepository, equipamentoRepository);
 
-            TelaChamado telaChamado = new TelaChamado(equipamentoRepository);
+            TelaChamado telaChamado = new(equipamentoRepository, chamadoRepository);
+
             while (true)
             {
                 Console.Clear();

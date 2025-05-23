@@ -1,10 +1,7 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
 
 namespace GestaoDeEquipamentos.ConsoleApp.View
 {
@@ -87,12 +84,12 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
                 CadastrarFabricante();
                 return;
             }
-            fabricanteRepository.InserirFabricante(fabricante);
+            fabricanteRepository.CadastrarRegistro(fabricante);
             Console.WriteLine("\nFabricante cadastrado com sucesso!");
             Console.ReadLine();
         }
 
-        public Fabricante ObterDados()
+        private Fabricante ObterDados()
         {
             Console.Write("Nome: ");
             string nome = Console.ReadLine();
@@ -113,9 +110,11 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             Console.WriteLine("Lista de Fabricantes");
             Console.WriteLine("---------------------");
 
-            var fabricante = fabricanteRepository.Listar();
+            List<EntidadeBase> registros = fabricanteRepository.SelecionarRegistros();
 
-            if (fabricante == null || fabricante.Count == 0)
+            List<Fabricante> fabricantes = registros.OfType<Fabricante>().ToList();
+
+            if (fabricantes == null || fabricantes.Count == 0)
             {
                 Console.WriteLine("\nNenhum fabricante cadastrado.");
                 Console.ReadLine();
@@ -126,9 +125,9 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
                 Console.WriteLine("{0,-5} | {1,-20} | {2,-10} | {3,-15}",
                     "Id", "Nome", "Email", "Telefone");
 
-                foreach (var f in fabricante)
+                foreach (Fabricante f in fabricantes)
                 {
-                    Console.WriteLine("{0,-5} | {1,-20} | {2,-10:C2} | {3,-15}",
+                    Console.WriteLine("{0,-5} | {1,-20} | {2,-10} | {3,-15}",
                         f.id, f.nome, f.email, f.telefone);
                 }
             }
@@ -152,7 +151,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
 
             try
             {
-                var fabricanteExistente = fabricanteRepository.ObterPorId(id);
+                var fabricanteExistente = fabricanteRepository.SelecionarRegistroPorId(id);
                 if (fabricanteExistente == null)
                 {
                     Console.WriteLine("Fabricante não encontrado.");
@@ -162,7 +161,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
                 Console.WriteLine("\nDigite os novos dados:");
                 Fabricante dadosAtualizados = ObterDados();
 
-                fabricanteRepository.EditarFabricante(id, dadosAtualizados);
+                fabricanteRepository.EditarRegistro(id, dadosAtualizados);
 
                 Console.WriteLine("\nFabricante atualizado com sucesso!");
             }
@@ -187,7 +186,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             Console.Write("\nDigite o ID do fabricante a ser excluído: ");
             int idSelecionado = Convert.ToInt32(Console.ReadLine());
 
-            var fabricanteDeletar = fabricanteRepository.ObterPorId(idSelecionado);
+            var fabricanteDeletar = fabricanteRepository.SelecionarRegistroPorId(idSelecionado);
 
             if (fabricanteDeletar == null)
             {
@@ -195,7 +194,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             }
             else
             {
-                bool sucesso = fabricanteRepository.ExcluirFabricante(idSelecionado);
+                bool sucesso = fabricanteRepository.ExcluirRegistro(idSelecionado);
 
                 Console.WriteLine("\nFabricante excluído com sucesso!");
             }
