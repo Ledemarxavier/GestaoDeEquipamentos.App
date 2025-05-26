@@ -1,13 +1,10 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
 using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
-using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
-using System.Net.Mail;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado
 {
     public class Chamado : EntidadeBase
     {
-        // public int id { get; private set; }
         public string titulo { get; set; }
 
         public string descricao { get; set; }
@@ -22,7 +19,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado
             this.dataAbertura = dataAbertura;
         }
 
-        public string Validar()
+        public override string Validar()
         {
             string erros = "";
 
@@ -48,15 +45,5 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado
 
             this.dataAbertura = equipamentoAtualizado.dataAbertura;
         }
-
-        /*public void DefinirId(int id)
-        {
-            this.id = id;
-        }
-
-        public override string ToString()
-        {
-            return titulo;
-        }*/
     }
 }

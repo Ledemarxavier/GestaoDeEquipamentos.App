@@ -36,15 +36,15 @@ namespace GestaoDeEquipamentos.ConsoleApp
                 switch (opcao)
                 {
                     case "1":
-                        telaEquipamento.MenuEquipamentos();
+                        telaEquipamento.Menu();
                         break;
 
                     case "2":
-                        telaChamado.MenuChamados();
+                        telaChamado.Menu();
                         break;
 
                     case "3":
-                        telaFabricante.MenuFabricantes();
+                        telaFabricante.Menu();
                         break;
 
                     case "0":

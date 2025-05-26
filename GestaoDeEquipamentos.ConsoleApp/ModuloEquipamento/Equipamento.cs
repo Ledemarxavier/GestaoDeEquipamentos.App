@@ -1,6 +1,5 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
-using System.Net.Mail;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento
 {
@@ -21,7 +20,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento
             this.fabricante = fabricante;
         }
 
-        public string Validar()
+        public override string Validar()
         {
             string erros = "";
 

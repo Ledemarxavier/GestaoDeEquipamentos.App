@@ -1,96 +1,22 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
 using GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
 using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 
 namespace GestaoDeEquipamentos.ConsoleApp.View
 {
-    public class TelaChamado
+    public class TelaChamado : TelaBase
     {
         private ChamadoRepository chamadoRepository;
         public EquipamentoRepository equipamentoRepository;
 
         public TelaChamado(EquipamentoRepository equipamentoRepository, ChamadoRepository chamadoRepository)
+            : base("Chamado", chamadoRepository)
         {
             this.equipamentoRepository = equipamentoRepository;
             this.chamadoRepository = chamadoRepository;
         }
 
-        public void MenuChamados()
-        {
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("Gerenciamento de Chamados");
-                Console.WriteLine("-----------------------------");
-                Console.WriteLine("1. Cadastrar Chamado");
-                Console.WriteLine("2. Listar Chamados");
-                Console.WriteLine("3. Editar Chamado");
-                Console.WriteLine("4. Excluir Chamado");
-                Console.WriteLine("0. Voltar");
-                Console.Write("Opção: ");
-
-                string opcao = Console.ReadLine();
-
-                switch (opcao)
-                {
-                    case "1":
-                        CadastrarChamado();
-                        break;
-
-                    case "2":
-                        Listar();
-                        break;
-
-                    case "3":
-                        EditarChamado();
-                        break;
-
-                    case "4":
-                        DeletarChamado();
-                        break;
-
-                    case "0":
-                        return;
-
-                    default:
-                        Console.WriteLine("Opção inválida.");
-                        Console.ReadLine();
-                        break;
-                }
-            }
-        }
-
-        public void CadastrarChamado()
-        {
-            Console.Clear();
-            Console.WriteLine("Cadastro de Chamado");
-            Console.WriteLine("-------------------");
-
-            Chamado chamado = ObterDados();
-            string erros = chamado.Validar();
-            if (erros.Length > 0)
-            {
-                Console.WriteLine();
-
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(erros);
-                Console.ResetColor();
-
-                Console.Write("\nDigite ENTER para continuar...");
-                Console.ReadLine();
-                CadastrarChamado();
-                return;
-            }
-            chamadoRepository.CadastrarRegistro(chamado);
-            Console.WriteLine("\nChamado cadastrado com sucesso!");
-            Console.ReadLine();
-        }
-
-        public bool Listar()
+        public override bool ListarRegistros()
         {
             Console.Clear();
             Console.WriteLine("Lista de Chamados");
@@ -124,7 +50,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             return true;
         }
 
-        public Chamado ObterDados()
+        protected override Chamado ObterDados()
         {
             Console.Write("Digite o título do chamado: ");
             string titulo = Console.ReadLine();
@@ -213,75 +139,6 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
                 }
             }
             return true;
-        }
-
-        public void EditarChamado()
-        {
-            Console.Clear();
-            Console.WriteLine("Edição de Chamado");
-            Console.WriteLine("-----------------");
-
-            bool listaTemChamados = Listar();
-            if (!listaTemChamados)
-                return;
-
-            Console.Write("\nDigite o ID do chamado a editar: ");
-            int id = Convert.ToInt32(Console.ReadLine());
-
-            try
-            {
-                var equipamentoExistente = equipamentoRepository.SelecionarRegistroPorId(id);
-                if (equipamentoExistente == null)
-                {
-                    Console.WriteLine("Chamado não encontrado.");
-                    Console.ReadLine();
-                    return;
-                }
-
-                Console.WriteLine("\nDigite os novos dados:");
-                Chamado dadosAtualizados = ObterDados();
-
-                chamadoRepository.EditarRegistro(id, dadosAtualizados);
-
-                Console.WriteLine("\nChamado atualizado com sucesso!");
-            }
-            catch
-            {
-                Console.WriteLine($"\nErro ao atualizar o chamado.");
-            }
-
-            Console.ReadLine();
-        }
-
-        public void DeletarChamado()
-        {
-            Console.Clear();
-            Console.WriteLine("Exclusão de chamado");
-            Console.WriteLine("-----------------------");
-
-            bool listaTemChamados = Listar();
-            if (!listaTemChamados)
-                return;
-
-            Console.Write("\nDigite o ID do chamado a ser excluído: ");
-            int idSelecionado = Convert.ToInt32(Console.ReadLine());
-
-            var chamadoDeletar = chamadoRepository.SelecionarRegistroPorId(idSelecionado);
-
-            if (chamadoDeletar == null)
-            {
-                Console.WriteLine("Chamado não encontrado.");
-            }
-            else
-            {
-                bool sucesso = chamadoRepository.ExcluirRegistro(idSelecionado);
-                if (sucesso)
-                    Console.WriteLine("\nChamado excluído com sucesso!");
-                else
-                    Console.WriteLine("\nErro ao excluir o chamado.");
-            }
-
-            Console.ReadLine();
         }
     }
 }

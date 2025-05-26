@@ -1,5 +1,4 @@
-﻿using System;
-using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
+﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
 using System.Net.Mail;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloFabricante
@@ -19,7 +18,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloFabricante
             this.telefone = telefone;
         }
 
-        public string Validar()
+        public override string Validar()
         {
             string erros = "";
 

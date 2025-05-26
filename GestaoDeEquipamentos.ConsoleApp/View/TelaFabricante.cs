@@ -1,95 +1,20 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
-using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
-using System;
+﻿using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
+
 using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
 
 namespace GestaoDeEquipamentos.ConsoleApp.View
 {
-    public class TelaFabricante
+    public class TelaFabricante : TelaBase
     {
-        public FabricanteRepository fabricanteRepository;
+        private FabricanteRepository fabricanteRepository;
 
         public TelaFabricante(FabricanteRepository fabricanteRepository)
+        : base("Fabricante", fabricanteRepository)
         {
             this.fabricanteRepository = fabricanteRepository;
         }
 
-        public void MenuFabricantes()
-        {
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("Gerenciamento de Fabricantes");
-                Console.WriteLine("-----------------------------");
-                Console.WriteLine("1. Cadastrar Fabricante");
-                Console.WriteLine("2. Listar Fabricantes");
-                Console.WriteLine("3. Editar Frabricante");
-                Console.WriteLine("4. Excluir Fabricante");
-                Console.WriteLine("0. Voltar");
-                Console.Write("Opção: ");
-
-                string opcao = Console.ReadLine();
-
-                switch (opcao)
-                {
-                    case "1":
-                        CadastrarFabricante();
-                        break;
-
-                    case "2":
-                        ListarFabricantes();
-
-                        break;
-
-                    case "3":
-                        AtualizarFabricante();
-
-                        break;
-
-                    case "4":
-                        DeletarFabricante();
-                        break;
-
-                    case "0":
-                        return;
-
-                    default:
-                        Console.WriteLine("Opção inválida.");
-                        Console.ReadLine();
-                        break;
-                }
-            }
-        }
-
-        public void CadastrarFabricante()
-        {
-            Console.Clear();
-            Console.WriteLine("\nCadastro de Fabricantes");
-            Console.WriteLine("----------------------");
-
-            Fabricante fabricante = ObterDados();
-
-            string erros = fabricante.Validar();
-
-            if (erros.Length > 0)
-            {
-                Console.WriteLine();
-
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(erros);
-                Console.ResetColor();
-
-                Console.Write("\nDigite ENTER para continuar...");
-                Console.ReadLine();
-                CadastrarFabricante();
-                return;
-            }
-            fabricanteRepository.CadastrarRegistro(fabricante);
-            Console.WriteLine("\nFabricante cadastrado com sucesso!");
-            Console.ReadLine();
-        }
-
-        private Fabricante ObterDados()
+        protected override Fabricante ObterDados()
         {
             Console.Write("Nome: ");
             string nome = Console.ReadLine();
@@ -104,7 +29,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             return new Fabricante(nome, email, telefone);
         }
 
-        public bool ListarFabricantes()
+        public override bool ListarRegistros()
         {
             Console.Clear();
             Console.WriteLine("Lista de Fabricantes");
@@ -135,71 +60,6 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             Console.WriteLine("\nPressione a tecla ENTER para continuar...");
             Console.ReadLine();
             return true;
-        }
-
-        public void AtualizarFabricante()
-        {
-            Console.Clear();
-            Console.WriteLine("Edição de Frabricante");
-            Console.WriteLine("---------------------");
-
-            if (!ListarFabricantes())
-                return;
-
-            Console.Write("\nDigite o ID do fabricante a editar: ");
-            int id = Convert.ToInt32(Console.ReadLine());
-
-            try
-            {
-                var fabricanteExistente = fabricanteRepository.SelecionarRegistroPorId(id);
-                if (fabricanteExistente == null)
-                {
-                    Console.WriteLine("Fabricante não encontrado.");
-                    Console.ReadLine();
-                }
-
-                Console.WriteLine("\nDigite os novos dados:");
-                Fabricante dadosAtualizados = ObterDados();
-
-                fabricanteRepository.EditarRegistro(id, dadosAtualizados);
-
-                Console.WriteLine("\nFabricante atualizado com sucesso!");
-            }
-            catch
-            {
-                Console.WriteLine($"\nErro ao atualizar o fabricante.");
-            }
-
-            Console.ReadLine();
-        }
-
-        public void DeletarFabricante()
-        {
-            Console.Clear();
-            Console.WriteLine("Exclusão de Fabricante");
-            Console.WriteLine("-----------------------");
-
-            if (!ListarFabricantes())
-
-                return;
-
-            Console.Write("\nDigite o ID do fabricante a ser excluído: ");
-            int idSelecionado = Convert.ToInt32(Console.ReadLine());
-
-            var fabricanteDeletar = fabricanteRepository.SelecionarRegistroPorId(idSelecionado);
-
-            if (fabricanteDeletar == null)
-            {
-                Console.WriteLine("Fabricante não encontrado.");
-            }
-            else
-            {
-                bool sucesso = fabricanteRepository.ExcluirRegistro(idSelecionado);
-
-                Console.WriteLine("\nFabricante excluído com sucesso!");
-            }
-
-            Console.ReadLine();
         }
     }
 }
