@@ -5,11 +5,11 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento
 {
     public class Equipamento : EntidadeBase
     {
-        public string nome { get; set; }
-        public decimal preco { get; set; }
-        public string numeroSerie { get; set; }
-        public DateTime dataFabricacao { get; set; }
-        public Fabricante fabricante { get; set; }
+        public string nome;
+        public decimal preco;
+        public string numeroSerie;
+        public DateTime dataFabricacao;
+        public Fabricante fabricante;
 
         public Equipamento(string nome, decimal preco, string numeroSerie, DateTime dataFabricacao, Fabricante fabricante)
         {
