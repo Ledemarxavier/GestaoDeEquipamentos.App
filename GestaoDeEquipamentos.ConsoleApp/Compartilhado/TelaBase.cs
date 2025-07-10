@@ -1,17 +1,17 @@
 ﻿namespace GestaoDeEquipamentos.ConsoleApp.Compartilhado
 {
-    public abstract class TelaBase
+    public abstract class TelaBase<T> where T : EntidadeBase<T>
     {
         private string nomeEntidade;
-        private BaseRepository repository;
+        private BaseRepository<T> repository;
 
-        protected TelaBase(string nomeEntidade, BaseRepository repository)
+        protected TelaBase(string nomeEntidade, BaseRepository<T> repository)
         {
             this.nomeEntidade = nomeEntidade;
             this.repository = repository;
         }
 
-        public void Menu()
+        public virtual char Menu()
         {
             while (true)
             {
@@ -25,36 +25,9 @@
                 Console.WriteLine("0. Voltar");
                 Console.Write("Opção: ");
 
-                string opcao = Console.ReadLine();
+                char operacaoEscolhida = Convert.ToChar(Console.ReadLine()!);
 
-                switch (opcao)
-                {
-                    case "1":
-                        CadastrarRegistro();
-                        break;
-
-                    case "2":
-                        ListarRegistros();
-
-                        break;
-
-                    case "3":
-                        AtualizarRegistro();
-
-                        break;
-
-                    case "4":
-                        DeletarRegistro();
-                        break;
-
-                    case "0":
-                        return;
-
-                    default:
-                        Console.WriteLine("Opção inválida.");
-                        Console.ReadLine();
-                        break;
-                }
+                return operacaoEscolhida;
             }
         }
 
@@ -64,7 +37,7 @@
             Console.WriteLine($"\nCadastro de {nomeEntidade}");
             Console.WriteLine("----------------------");
 
-            EntidadeBase novoRegistro = ObterDados();
+            T novoRegistro = ObterDados();
 
             if (novoRegistro == null)
                 return;
@@ -104,7 +77,7 @@
             Console.Write($"\nDigite o ID do {nomeEntidade} a editar: ");
             int idSelecionado = Convert.ToInt32(Console.ReadLine());
 
-            EntidadeBase registroAtualizado = ObterDados();
+            T registroAtualizado = ObterDados();
 
             repository.EditarRegistro(idSelecionado, registroAtualizado);
 
@@ -113,7 +86,7 @@
             Console.ReadLine();
         }
 
-        protected abstract EntidadeBase ObterDados();
+        protected abstract T ObterDados();
 
         public void DeletarRegistro()
         {

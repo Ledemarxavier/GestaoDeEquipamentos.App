@@ -1,19 +1,20 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
 using GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
 using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
+using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
 namespace GestaoDeEquipamentos.ConsoleApp.View
 {
-    public class TelaChamado : TelaBase
+    public class TelaChamado : TelaBase<Chamado>, ITela
     {
         private ChamadoRepository chamadoRepository;
-        public EquipamentoRepository equipamentoRepository;
+        private EquipamentoRepository equipamentoRepository;
 
-        public TelaChamado(EquipamentoRepository equipamentoRepository, ChamadoRepository chamadoRepository)
+        public TelaChamado(ChamadoRepository chamadoRepository, EquipamentoRepository equipamentoRepository)
             : base("Chamado", chamadoRepository)
         {
-            this.equipamentoRepository = equipamentoRepository;
             this.chamadoRepository = chamadoRepository;
+            this.equipamentoRepository = equipamentoRepository;
         }
 
         public override bool ListarRegistros()
@@ -22,7 +23,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             Console.WriteLine("Lista de Chamados");
             Console.WriteLine("-----------------");
 
-            List<EntidadeBase> registros = chamadoRepository.SelecionarRegistros();
+            List<Chamado> registros = chamadoRepository.SelecionarRegistros();
             List<Chamado> chamados = registros.OfType<Chamado>().ToList();
 
             if (chamados == null || chamados.Count == 0)
@@ -60,7 +61,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
 
             DateTime dataAbertura = DateTime.Now;
 
-            List<EntidadeBase> registros = equipamentoRepository.SelecionarRegistros();
+            List<Equipamento> registros = equipamentoRepository.SelecionarRegistros();
             List<Equipamento> equipamentos = registros.OfType<Equipamento>().ToList();
 
             if (equipamentos.Count == 0)

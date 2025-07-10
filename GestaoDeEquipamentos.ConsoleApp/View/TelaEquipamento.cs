@@ -4,7 +4,7 @@ using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
 
 namespace GestaoDeEquipamentos.ConsoleApp.View
 {
-    public class TelaEquipamento : TelaBase
+    public class TelaEquipamento : TelaBase<Equipamento>, ITela
     {
         private EquipamentoRepository equipamentoRepository;
         private FabricanteRepository fabricanteRepository;
@@ -34,7 +34,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             DateTime dataFabricacao;
             DateTime.TryParse(entradaData, out dataFabricacao);
 
-            List<EntidadeBase> registros = fabricanteRepository.SelecionarRegistros();
+            List<Fabricante> registros = fabricanteRepository.SelecionarRegistros();
             List<Fabricante> fabricantes = registros.OfType<Fabricante>().ToList();
 
             if (fabricantes.Count == 0)
@@ -54,7 +54,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
 
             int idFabricante = 0;
             int.TryParse(entradaIdFabricante, out idFabricante);
-            EntidadeBase registro = fabricanteRepository.SelecionarRegistroPorId(idFabricante);
+            Fabricante registro = fabricanteRepository.SelecionarRegistroPorId(idFabricante);
 
             return new Equipamento(nome, preco, numeroSerie, dataFabricacao, (Fabricante)registro);
         }
@@ -65,7 +65,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             Console.WriteLine("Lista de Equipamentos");
             Console.WriteLine("---------------------");
 
-            List<EntidadeBase> registros = equipamentoRepository.SelecionarRegistros();
+            List<Equipamento> registros = equipamentoRepository.SelecionarRegistros();
 
             List<Equipamento> equipamentos = registros.OfType<Equipamento>().ToList();
 

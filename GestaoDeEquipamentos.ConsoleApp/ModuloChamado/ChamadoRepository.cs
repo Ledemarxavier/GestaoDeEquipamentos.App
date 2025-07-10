@@ -2,4 +2,4 @@
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
 
-public class ChamadoRepository : BaseRepository;
+public class ChamadoRepository : BaseRepository<Chamado>;

@@ -3,7 +3,7 @@ using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento
 {
-    public class Equipamento : EntidadeBase
+    public class Equipamento : EntidadeBase<Equipamento>
     {
         public string nome;
         public decimal preco;
@@ -41,15 +41,13 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento
             return erros;
         }
 
-        public override void AtualizarRegistro(EntidadeBase registroAtualizado)
+        public override void AtualizarRegistro(Equipamento registroAtualizado)
         {
-            Equipamento equipamentoAtualizado = (Equipamento)registroAtualizado;
-
-            this.nome = equipamentoAtualizado.nome;
-            this.preco = equipamentoAtualizado.preco;
-            this.numeroSerie = equipamentoAtualizado.numeroSerie;
-            this.fabricante = equipamentoAtualizado.fabricante;
-            this.dataFabricacao = equipamentoAtualizado.dataFabricacao;
+            this.nome = registroAtualizado.nome;
+            this.preco = registroAtualizado.preco;
+            this.numeroSerie = registroAtualizado.numeroSerie;
+            this.fabricante = registroAtualizado.fabricante;
+            this.dataFabricacao = registroAtualizado.dataFabricacao;
         }
     }
 }

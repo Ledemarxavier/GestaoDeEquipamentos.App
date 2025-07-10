@@ -3,7 +3,7 @@ using System.Net.Mail;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloFabricante
 {
-    public class Fabricante : EntidadeBase
+    public class Fabricante : EntidadeBase<Fabricante>
     {
         public string nome { get; set; }
 
@@ -38,7 +38,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloFabricante
             return erros;
         }
 
-        public override void AtualizarRegistro(EntidadeBase registroAtualizado)
+        public override void AtualizarRegistro(Fabricante registroAtualizado)
         {
             Fabricante fabricanteAtualizado = (Fabricante)registroAtualizado;
 

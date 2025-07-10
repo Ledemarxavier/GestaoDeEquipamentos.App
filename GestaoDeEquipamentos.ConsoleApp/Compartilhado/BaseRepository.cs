@@ -1,21 +1,20 @@
 ﻿namespace GestaoDeEquipamentos.ConsoleApp.Compartilhado
 {
-    public class BaseRepository
+    public class BaseRepository<Tipo> where Tipo : EntidadeBase<Tipo>
     {
-        private List<EntidadeBase> registros = new List<EntidadeBase>();
-        private int contadorRegistros = 0;
+        private List<Tipo> registros = new List<Tipo>();
+        private int contadorIds = 0;
 
-        public void CadastrarRegistro(EntidadeBase novoRegistro)
+        public void CadastrarRegistro(Tipo novoRegistro)
         {
-            contadorRegistros++;
-            novoRegistro.id = contadorRegistros;
+            novoRegistro.id = ++contadorIds;
 
             registros.Add(novoRegistro);
         }
 
-        public bool EditarRegistro(int idSelecionado, EntidadeBase registroAtualizado)
+        public bool EditarRegistro(int idSelecionado, Tipo registroAtualizado)
         {
-            EntidadeBase registroSelecionado = SelecionarRegistroPorId(idSelecionado);
+            Tipo registroSelecionado = SelecionarRegistroPorId(idSelecionado);
 
             if (registroSelecionado == null)
                 return false;
@@ -34,12 +33,12 @@
             return registros.Remove(registro);
         }
 
-        public List<EntidadeBase> SelecionarRegistros()
+        public List<Tipo> SelecionarRegistros()
         {
             return registros;
         }
 
-        public EntidadeBase SelecionarRegistroPorId(int idSelecionado)
+        public Tipo SelecionarRegistroPorId(int idSelecionado)
         {
             foreach (var r in registros)
             {

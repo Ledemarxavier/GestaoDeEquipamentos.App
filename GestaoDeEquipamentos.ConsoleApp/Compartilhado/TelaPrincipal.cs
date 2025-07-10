@@ -2,58 +2,63 @@
 using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 using GestaoDeEquipamentos.ConsoleApp.View;
+using System.Security.Cryptography.X509Certificates;
 
 namespace GestaoDeEquipamentos.ConsoleApp.Compartilhado
 {
     public class TelaPrincipal
     {
+        private char opcaoEscolhida;
+        private FabricanteRepository fabricanteRepository;
+        private EquipamentoRepository equipamentoRepository;
+        private ChamadoRepository chamadoRepository;
+
+        private TelaFabricante telaFabricante;
+        private TelaEquipamento telaEquipamento;
+        private TelaChamado telaChamado;
+
         public void menuPrincipal()
         {
-            FabricanteRepository fabricanteRepository = new FabricanteRepository();
-            EquipamentoRepository equipamentoRepository = new();
-            ChamadoRepository chamadoRepository = new();
+            fabricanteRepository = new FabricanteRepository();
 
-            TelaFabricante telaFabricante = new(fabricanteRepository);
-            TelaEquipamento telaEquipamento = new(fabricanteRepository, equipamentoRepository);
+            equipamentoRepository = new EquipamentoRepository();
+            chamadoRepository = new ChamadoRepository();
 
-            TelaChamado telaChamado = new(equipamentoRepository, chamadoRepository);
+            telaFabricante = new TelaFabricante(fabricanteRepository);
 
-            while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("Sistema de Gestão de Equipamentos e Chamados");
-                Console.WriteLine("---------------------------------------------");
-                Console.WriteLine("1. Gerenciar Equipamentos");
-                Console.WriteLine("2. Gerenciar Chamados");
-                Console.WriteLine("3. Gerenciar Fabricantes");
-                Console.WriteLine("0. Sair");
-                Console.Write("Opção: ");
+            telaEquipamento = new TelaEquipamento(fabricanteRepository,
+                equipamentoRepository
 
-                string opcao = Console.ReadLine();
+            );
+            telaChamado = new TelaChamado(chamadoRepository, equipamentoRepository);
+        }
 
-                switch (opcao)
-                {
-                    case "1":
-                        telaEquipamento.Menu();
-                        break;
+        public void ApresentarMenuPrincipal()
+        {
+            Console.Clear();
+            Console.WriteLine("Sistema de Gestão de Equipamentos e Chamados");
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("1. Gerenciar Equipamentos");
+            Console.WriteLine("2. Gerenciar Chamados");
+            Console.WriteLine("3. Gerenciar Fabricantes");
+            Console.WriteLine("S. Sair");
 
-                    case "2":
-                        telaChamado.Menu();
-                        break;
+            Console.WriteLine();
 
-                    case "3":
-                        telaFabricante.Menu();
-                        break;
+            Console.Write("Escolha uma das opções: ");
+            opcaoEscolhida = Console.ReadLine()[0];
+        }
 
-                    case "0":
-                        return;
+        public ITela? ObterTela()
+        {
+            if (opcaoEscolhida == '1')
+                return telaEquipamento;
+            else if (opcaoEscolhida == '2')
+                return telaChamado;
+            else if (opcaoEscolhida == '3')
+                return telaFabricante;
 
-                    default:
-                        Console.WriteLine("Opção inválida!");
-                        Console.ReadLine();
-                        break;
-                }
-            }
+            return null;
         }
     }
 }

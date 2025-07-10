@@ -4,7 +4,7 @@ using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
 
 namespace GestaoDeEquipamentos.ConsoleApp.View
 {
-    public class TelaFabricante : TelaBase
+    public class TelaFabricante : TelaBase<Fabricante>, ITela
     {
         private FabricanteRepository fabricanteRepository;
 
@@ -35,7 +35,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             Console.WriteLine("Lista de Fabricantes");
             Console.WriteLine("---------------------");
 
-            List<EntidadeBase> registros = fabricanteRepository.SelecionarRegistros();
+            List<Fabricante> registros = fabricanteRepository.SelecionarRegistros();
 
             List<Fabricante> fabricantes = registros.OfType<Fabricante>().ToList();
 

@@ -1,10 +1,10 @@
 ﻿namespace GestaoDeEquipamentos.ConsoleApp.Compartilhado
 {
-    public abstract class EntidadeBase
+    public abstract class EntidadeBase<Tipo>
     {
         public int id;
 
-        public abstract void AtualizarRegistro(EntidadeBase registroAtualizado);
+        public abstract void AtualizarRegistro(Tipo registroAtualizado);
 
         public abstract string Validar();
     }
