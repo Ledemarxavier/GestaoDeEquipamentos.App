@@ -1,15 +1,18 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
-using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
-using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
+﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
+using GestaoDeEquipamentos.Dominio.ModuloEquipamento;
+using GestaoDeEquipamentos.Infraestrutura.ModuloEquipamento;
+using GestaoDeEquipamentos.Infraestrutura.ModuloFabricante;
+using GestaoDeEquipamentos.Dominio.ModuloFabricante;
+using GestaoDeEquipamentos.Infraestrutura.Arquivos.ModuloFabricante;
 
 namespace GestaoDeEquipamentos.ConsoleApp.View
 {
     public class TelaEquipamento : TelaBase<Equipamento>, ITela
     {
-        private EquipamentoRepository equipamentoRepository;
-        private FabricanteRepository fabricanteRepository;
+        private EquipamentoRepositoryEmArquivo equipamentoRepository;
+        private FabricanteRepositoryEmArquivo fabricanteRepository;
 
-        public TelaEquipamento(FabricanteRepository fabricanteRepository, EquipamentoRepository equipamentoRepository)
+        public TelaEquipamento(FabricanteRepositoryEmArquivo fabricanteRepository, EquipamentoRepositoryEmArquivo equipamentoRepository)
         : base("Equipamento", equipamentoRepository)
         {
             this.fabricanteRepository = fabricanteRepository;

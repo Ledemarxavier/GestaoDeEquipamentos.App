@@ -1,16 +1,19 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
-using GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
-using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
-using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
+
+using GestaoDeEquipamentos.Dominio.ModuloChamado;
+using GestaoDeEquipamentos.Dominio.ModuloEquipamento;
+using GestaoDeEquipamentos.Infraestrutura.Arquivos.ModuloFabricante;
+using GestaoDeEquipamentos.Infraestrutura.ModuloChamado;
+using GestaoDeEquipamentos.Infraestrutura.ModuloEquipamento;
 
 namespace GestaoDeEquipamentos.ConsoleApp.View
 {
     public class TelaChamado : TelaBase<Chamado>, ITela
     {
-        private ChamadoRepository chamadoRepository;
-        private EquipamentoRepository equipamentoRepository;
+        private ChamadoRepositoryEmArquivo chamadoRepository;
+        private EquipamentoRepositoryEmArquivo equipamentoRepository;
 
-        public TelaChamado(ChamadoRepository chamadoRepository, EquipamentoRepository equipamentoRepository)
+        public TelaChamado(ChamadoRepositoryEmArquivo chamadoRepository, EquipamentoRepositoryEmArquivo equipamentoRepository)
             : base("Chamado", chamadoRepository)
         {
             this.chamadoRepository = chamadoRepository;

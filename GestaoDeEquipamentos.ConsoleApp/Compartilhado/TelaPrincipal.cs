@@ -1,17 +1,20 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
-using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
-using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
-using GestaoDeEquipamentos.ConsoleApp.View;
+﻿using GestaoDeEquipamentos.ConsoleApp.View;
+using GestaoDeEquipamentos.Infraestrutura.Arquivos.Compartilhado;
+using GestaoDeEquipamentos.Infraestrutura.Arquivos.ModuloFabricante;
+using GestaoDeEquipamentos.Infraestrutura.ModuloChamado;
+using GestaoDeEquipamentos.Infraestrutura.ModuloEquipamento;
+using GestaoDeEquipamentos.Infraestrutura.ModuloFabricante;
 using System.Security.Cryptography.X509Certificates;
 
 namespace GestaoDeEquipamentos.ConsoleApp.Compartilhado
 {
     public class TelaPrincipal
     {
+        private ContextoDados contextoDados;
         private char opcaoEscolhida;
-        private FabricanteRepository fabricanteRepository;
-        private EquipamentoRepository equipamentoRepository;
-        private ChamadoRepository chamadoRepository;
+        private FabricanteRepositoryEmArquivo fabricanteRepository;
+        private EquipamentoRepositoryEmArquivo equipamentoRepository;
+        private ChamadoRepositoryEmArquivo chamadoRepository;
 
         private TelaFabricante telaFabricante;
         private TelaEquipamento telaEquipamento;
@@ -19,10 +22,11 @@ namespace GestaoDeEquipamentos.ConsoleApp.Compartilhado
 
         public void menuPrincipal()
         {
-            fabricanteRepository = new FabricanteRepository();
+            contextoDados = new ContextoDados(true);
+            fabricanteRepository = new FabricanteRepositoryEmArquivo(contextoDados);
 
-            equipamentoRepository = new EquipamentoRepository();
-            chamadoRepository = new ChamadoRepository();
+            equipamentoRepository = new EquipamentoRepositoryEmArquivo(contextoDados);
+            chamadoRepository = new ChamadoRepositoryEmArquivo(contextoDados);
 
             telaFabricante = new TelaFabricante(fabricanteRepository);
 

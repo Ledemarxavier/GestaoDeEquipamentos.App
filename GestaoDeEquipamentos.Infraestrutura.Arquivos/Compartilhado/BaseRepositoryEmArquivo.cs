@@ -1,15 +1,38 @@
-﻿namespace GestaoDeEquipamentos.ConsoleApp.Compartilhado
+﻿using GestaoDeEquipamentos.Dominio.Compartilhado;
+using GestaoDeEquipamentos.Infraestrutura.Arquivos.Compartilhado;
+
+namespace GestaoDeEquipamentos.Infraestrutura.Compartilhado
 {
-    public class BaseRepository<Tipo> where Tipo : EntidadeBase<Tipo>
+    public abstract class BaseRepositoryEmArquivo<Tipo> where Tipo : EntidadeBase<Tipo>
     {
         private List<Tipo> registros = new List<Tipo>();
         private int contadorIds = 0;
+
+        protected ContextoDados contexto;
+
+        protected BaseRepositoryEmArquivo(ContextoDados contexto)
+        {
+            this.contexto = contexto;
+
+            this.registros = ObterRegistros();
+
+            int maiorId = 0;
+
+            foreach (Tipo registro in registros)
+            {
+                if (registro.id > maiorId)
+                    maiorId = registro.id;
+            }
+
+            contadorIds = ++maiorId;
+        }
 
         public void CadastrarRegistro(Tipo novoRegistro)
         {
             novoRegistro.id = ++contadorIds;
 
             registros.Add(novoRegistro);
+            contexto.Salvar();
         }
 
         public bool EditarRegistro(int idSelecionado, Tipo registroAtualizado)
@@ -21,6 +44,8 @@
 
             registroSelecionado.AtualizarRegistro(registroAtualizado);
 
+            contexto.Salvar();
+
             return true;
         }
 
@@ -31,6 +56,8 @@
                 return false;
 
             return registros.Remove(registro);
+
+            contexto.Salvar();
         }
 
         public List<Tipo> SelecionarRegistros()
@@ -47,5 +74,7 @@
             }
             return null;
         }
+
+        protected abstract List<Tipo> ObterRegistros();
     }
 }

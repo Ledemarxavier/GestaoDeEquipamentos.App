@@ -1,7 +1,7 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
-using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
+﻿using GestaoDeEquipamentos.Dominio.Compartilhado;
+using GestaoDeEquipamentos.Dominio.ModuloEquipamento;
 
-namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado
+namespace GestaoDeEquipamentos.Dominio.ModuloChamado
 {
     public class Chamado : EntidadeBase<Chamado>
     {
@@ -11,7 +11,10 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado
         public Equipamento equipamento { get; set; }
         public DateTime dataAbertura { get; set; }
 
-        public Chamado(string titulo, string descricao, Equipamento equipamento, DateTime dataAbertura)
+        public Chamado()
+        { }
+
+        public Chamado(string titulo, string descricao, Equipamento equipamento, DateTime dataAbertura) : this()
         {
             this.titulo = titulo;
             this.descricao = descricao;

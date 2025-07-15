@@ -1,7 +1,7 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
+﻿using GestaoDeEquipamentos.Dominio.Compartilhado;
 using System.Net.Mail;
 
-namespace GestaoDeEquipamentos.ConsoleApp.ModuloFabricante
+namespace GestaoDeEquipamentos.Dominio.ModuloFabricante
 {
     public class Fabricante : EntidadeBase<Fabricante>
     {
@@ -11,7 +11,10 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloFabricante
 
         public string telefone { get; set; }
 
-        public Fabricante(string nome, string email, string telefone)
+        public Fabricante()
+        { }
+
+        public Fabricante(string nome, string email, string telefone) : this()
         {
             this.nome = nome;
             this.email = email;

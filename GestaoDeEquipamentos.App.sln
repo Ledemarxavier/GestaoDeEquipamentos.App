@@ -3,7 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoDeEquipamentos.ConsoleApp", "GestaoDeEquipamentos.ConsoleApp\GestaoDeEquipamentos.ConsoleApp.csproj", "{CA88708D-18BC-4A28-ABDE-9ED1877C1717}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestaoDeEquipamentos.ConsoleApp", "GestaoDeEquipamentos.ConsoleApp\GestaoDeEquipamentos.ConsoleApp.csproj", "{CA88708D-18BC-4A28-ABDE-9ED1877C1717}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Apresentacao", "1. Apresentacao", "{034B34AC-57E1-435E-80B3-1263EC86D540}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Dominio", "2. Dominio", "{9D8F1FEA-006C-4927-9AA9-C9C23AEE73A4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Infraestrurura", "3. Infraestrurura", "{AEBBDE64-5D7E-41C1-B398-1FDD086A33C9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestaoDeEquipamentos.Dominio", "GestaoDeEquipamentos.Dominio\GestaoDeEquipamentos.Dominio.csproj", "{043DED4C-7D1B-46D2-9CED-70FBFB751516}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestaoDeEquipamentos.Infraestrutura.Memoria", "GestaoDeEquipamento.Infraestrutura.Memoria\GestaoDeEquipamentos.Infraestrutura.Memoria.csproj", "{B36CECB0-B18C-4214-9884-E166F2CF383B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoDeEquipamentos.Infraestrutura.Arquivos", "GestaoDeEquipamentos.Infraestrutura.Arquivos\GestaoDeEquipamentos.Infraestrutura.Arquivos.csproj", "{F0A92A7D-2C68-4E04-A098-256BE548361B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoDeEquipamentos.WebApp", "GestaoDeEquipamentos.WebApp\GestaoDeEquipamentos.WebApp.csproj", "{B9100FD6-304C-463A-8BA2-EC6311602ACC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +29,32 @@ Global
 		{CA88708D-18BC-4A28-ABDE-9ED1877C1717}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA88708D-18BC-4A28-ABDE-9ED1877C1717}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA88708D-18BC-4A28-ABDE-9ED1877C1717}.Release|Any CPU.Build.0 = Release|Any CPU
+		{043DED4C-7D1B-46D2-9CED-70FBFB751516}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{043DED4C-7D1B-46D2-9CED-70FBFB751516}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{043DED4C-7D1B-46D2-9CED-70FBFB751516}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{043DED4C-7D1B-46D2-9CED-70FBFB751516}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B36CECB0-B18C-4214-9884-E166F2CF383B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B36CECB0-B18C-4214-9884-E166F2CF383B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B36CECB0-B18C-4214-9884-E166F2CF383B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B36CECB0-B18C-4214-9884-E166F2CF383B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0A92A7D-2C68-4E04-A098-256BE548361B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0A92A7D-2C68-4E04-A098-256BE548361B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0A92A7D-2C68-4E04-A098-256BE548361B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0A92A7D-2C68-4E04-A098-256BE548361B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9100FD6-304C-463A-8BA2-EC6311602ACC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9100FD6-304C-463A-8BA2-EC6311602ACC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9100FD6-304C-463A-8BA2-EC6311602ACC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9100FD6-304C-463A-8BA2-EC6311602ACC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CA88708D-18BC-4A28-ABDE-9ED1877C1717} = {034B34AC-57E1-435E-80B3-1263EC86D540}
+		{043DED4C-7D1B-46D2-9CED-70FBFB751516} = {9D8F1FEA-006C-4927-9AA9-C9C23AEE73A4}
+		{B36CECB0-B18C-4214-9884-E166F2CF383B} = {AEBBDE64-5D7E-41C1-B398-1FDD086A33C9}
+		{F0A92A7D-2C68-4E04-A098-256BE548361B} = {AEBBDE64-5D7E-41C1-B398-1FDD086A33C9}
+		{B9100FD6-304C-463A-8BA2-EC6311602ACC} = {034B34AC-57E1-435E-80B3-1263EC86D540}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {101E3EFF-75E7-410E-A4DE-5F2D125299E0}

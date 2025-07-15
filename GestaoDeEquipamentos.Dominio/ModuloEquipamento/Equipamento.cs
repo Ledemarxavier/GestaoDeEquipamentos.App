@@ -1,7 +1,7 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
-using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
+﻿using GestaoDeEquipamentos.Dominio.ModuloFabricante;
+using GestaoDeEquipamentos.Dominio.Compartilhado;
 
-namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento
+namespace GestaoDeEquipamentos.Dominio.ModuloEquipamento
 {
     public class Equipamento : EntidadeBase<Equipamento>
     {
@@ -11,7 +11,10 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento
         public DateTime dataFabricacao;
         public Fabricante fabricante;
 
-        public Equipamento(string nome, decimal preco, string numeroSerie, DateTime dataFabricacao, Fabricante fabricante)
+        public Equipamento()
+        { }
+
+        public Equipamento(string nome, decimal preco, string numeroSerie, DateTime dataFabricacao, Fabricante fabricante) : this()
         {
             this.nome = nome;
             this.preco = preco;
