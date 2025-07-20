@@ -1,11 +1,12 @@
-﻿@using GestaoDeEquipamentos.Dominio.ModuloFabricante
+﻿﻿@using GestaoDeEquipamentos.Dominio.ModuloFabricante
+@using GestaoDeEquipamentos.WebApp.Models
 
 @{
     Layout = "_Layout";
     ViewBag.Titulo = "Visualização de Fabricantes";
 }
 
-@model List<Fabricante>
+@model VisualizarFabricantesViewModel
 
 <a class="btn btn-primary" href="/Fabricante/Cadastrar">
     <i class="bi bi-plus"></i>
@@ -13,21 +14,21 @@
 </a>
 
 <div class="row mt-4">
-    @foreach (Fabricante f in Model)
+    @foreach (DetalhesFabricanteViewModel f in Model.Registros)
     {
         <div class="col-3">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">@f.nome</h5>
-                    <p class="card-text mb-0"><strong>Email:</strong> @f.email</p>
-                    <p class="card-text mb-0"><strong>Telefone:</strong> @f.telefone</p>
+                    <h5 class="card-title">@f.Nome</h5>
+                    <p class="card-text mb-0"><strong>Email:</strong> @f.Email</p>
+                    <p class="card-text mb-0"><strong>Telefone:</strong> @f.Telefone</p>
                 </div>
 
                 <div class="card-actions ms-auto me-3 mb-3 d-flex gap-1">
-                    <a class="btn btn-sm btn-primary rounded-circle d-flex justify-content-center align-items-center" style="height: 35px; width: 35px;" href="/Fabricante/Editar/@f.id">
+                    <a class="btn btn-sm btn-primary rounded-circle d-flex justify-content-center align-items-center" style="height: 35px; width: 35px;" href="/Fabricante/Editar/@f.Id">
                         <i class="bi bi-pencil"></i>
                     </a>
-                    <a class="btn btn-sm btn-danger rounded-circle d-flex justify-content-center align-items-center" style="height: 35px; width: 35px;" href="/Fabricante/Excluir/@f.id">
+                    <a class="btn btn-sm btn-danger rounded-circle d-flex justify-content-center align-items-center" style="height: 35px; width: 35px;" href="/Fabricante/Excluir/@f.Id">
                         <i class="bi bi-trash2"></i>
                     </a>
                 </div>
