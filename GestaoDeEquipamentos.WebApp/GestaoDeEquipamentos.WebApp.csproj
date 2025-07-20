@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GestaoDeEquipamentos.ConsoleApp\GestaoDeEquipamentos.ConsoleApp.csproj" />
     <ProjectReference Include="..\GestaoDeEquipamentos.Dominio\GestaoDeEquipamentos.Dominio.csproj" />
     <ProjectReference Include="..\GestaoDeEquipamentos.Infraestrutura.Arquivos\GestaoDeEquipamentos.Infraestrutura.Arquivos.csproj" />
   </ItemGroup>

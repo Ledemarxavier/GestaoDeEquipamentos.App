@@ -55,9 +55,10 @@ namespace GestaoDeEquipamentos.Infraestrutura.Compartilhado
             if (registro == null)
                 return false;
 
-            return registros.Remove(registro);
+             registros.Remove(registro);
 
             contexto.Salvar();
+            return true;
         }
 
         public List<Tipo> SelecionarRegistros()
