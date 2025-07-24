@@ -14,8 +14,4 @@
     <ProjectReference Include="..\GestaoDeEquipamentos.Infraestrutura.Arquivos\GestaoDeEquipamentos.Infraestrutura.Arquivos.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Chamado\" />
-  </ItemGroup>
-
 </Project>

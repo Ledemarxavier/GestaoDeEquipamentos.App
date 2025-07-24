@@ -8,18 +8,20 @@ namespace GestaoDeEquipamentos.Dominio.ModuloChamado
         public string titulo { get; set; }
 
         public string descricao { get; set; }
-        public Equipamento equipamento { get; set; }
+
         public DateTime dataAbertura { get; set; }
+
+        public Equipamento equipamento { get; set; }
 
         public Chamado()
         { }
 
-        public Chamado(string titulo, string descricao, Equipamento equipamento, DateTime dataAbertura) : this()
+        public Chamado(string titulo, string descricao, DateTime dataAbertura, Equipamento equipamento) : this()
         {
             this.titulo = titulo;
             this.descricao = descricao;
-            this.equipamento = equipamento;
             this.dataAbertura = dataAbertura;
+            this.equipamento = equipamento;
         }
 
         public override string Validar()
@@ -44,9 +46,8 @@ namespace GestaoDeEquipamentos.Dominio.ModuloChamado
 
             this.titulo = equipamentoAtualizado.titulo;
             this.descricao = equipamentoAtualizado.descricao;
-            this.equipamento = equipamentoAtualizado.equipamento;
-
             this.dataAbertura = equipamentoAtualizado.dataAbertura;
+            this.equipamento = equipamentoAtualizado.equipamento;
         }
     }
 }
