@@ -137,7 +137,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
                     Console.WriteLine("{0,-5} | {1,-20} | {2,-15} | {3,-15} | {4,-12:dd/MM/yyyy}",
                         equipamento.id,
                         equipamento.nome,
-                        equipamento.numeroSerie,
+                        //equipamento.numeroSerie,
                         equipamento.fabricante,
                         equipamento.dataFabricacao);
                 }

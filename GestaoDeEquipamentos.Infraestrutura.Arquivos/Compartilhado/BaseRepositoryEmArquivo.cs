@@ -5,10 +5,9 @@ namespace GestaoDeEquipamentos.Infraestrutura.Compartilhado
 {
     public abstract class BaseRepositoryEmArquivo<Tipo> where Tipo : EntidadeBase<Tipo>
     {
-        private List<Tipo> registros = new List<Tipo>();
-        private int contadorIds = 0;
-
         protected ContextoDados contexto;
+        protected List<Tipo> registros;
+        protected int contadorIds = 0;
 
         protected BaseRepositoryEmArquivo(ContextoDados contexto)
         {
@@ -20,11 +19,11 @@ namespace GestaoDeEquipamentos.Infraestrutura.Compartilhado
 
             foreach (Tipo registro in registros)
             {
-                if (registro.id > maiorId)
+                if (registro.id > contadorIds)
                     maiorId = registro.id;
             }
 
-            contadorIds = ++maiorId;
+            contadorIds = maiorId;
         }
 
         public void CadastrarRegistro(Tipo novoRegistro)
@@ -55,7 +54,7 @@ namespace GestaoDeEquipamentos.Infraestrutura.Compartilhado
             if (registro == null)
                 return false;
 
-             registros.Remove(registro);
+            registros.Remove(registro);
 
             contexto.Salvar();
             return true;

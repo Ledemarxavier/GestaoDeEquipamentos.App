@@ -59,7 +59,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
             int.TryParse(entradaIdFabricante, out idFabricante);
             Fabricante registro = fabricanteRepository.SelecionarRegistroPorId(idFabricante);
 
-            return new Equipamento(nome, preco, numeroSerie, dataFabricacao, (Fabricante)registro);
+            return new Equipamento(nome, preco, dataFabricacao, (Fabricante)registro);
         }
 
         public override bool ListarRegistros()
@@ -86,7 +86,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.View
                 foreach (var e in equipamentos)
                 {
                     Console.WriteLine("{0,-5} | {1,-20} | {2,-10:C2} | {3,-15} | {4,-15} | {5,-12:dd/MM/yyyy}",
-                        e.id, e.nome, e.preco, e.numeroSerie,
+                        e.id, e.nome, e.preco,
                         e.fabricante.nome, e.dataFabricacao);
                 }
             }

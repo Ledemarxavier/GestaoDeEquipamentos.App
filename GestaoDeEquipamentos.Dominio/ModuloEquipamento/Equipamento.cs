@@ -5,22 +5,41 @@ namespace GestaoDeEquipamentos.Dominio.ModuloEquipamento
 {
     public class Equipamento : EntidadeBase<Equipamento>
     {
-        public string nome;
-        public decimal preco;
-        public string numeroSerie;
-        public DateTime dataFabricacao;
-        public Fabricante fabricante;
+        public string nome { get; set; }
+        public decimal preco { get; set; }
+        public string numeroSerie { get; set; }
+        public Fabricante fabricante { get; set; }
+        public DateTime dataFabricacao { get; set; }
 
         public Equipamento()
         { }
 
-        public Equipamento(string nome, decimal preco, string numeroSerie, DateTime dataFabricacao, Fabricante fabricante) : this()
+        public Equipamento(
+            string nome,
+            decimal preco,
+            DateTime dataFabricacao,
+            Fabricante fabricante
+        ) : this()
+        {
+            this.nome = nome;
+            this.preco = preco;
+            this.fabricante = fabricante;
+            this.dataFabricacao = dataFabricacao;
+        }
+
+        public Equipamento(
+            string nome,
+            decimal preco,
+            string numeroSerie,
+            Fabricante fabricante,
+            DateTime dataFabricacao
+        ) : this()
         {
             this.nome = nome;
             this.preco = preco;
             this.numeroSerie = numeroSerie;
-            this.dataFabricacao = dataFabricacao;
             this.fabricante = fabricante;
+            this.dataFabricacao = dataFabricacao;
         }
 
         public override string Validar()

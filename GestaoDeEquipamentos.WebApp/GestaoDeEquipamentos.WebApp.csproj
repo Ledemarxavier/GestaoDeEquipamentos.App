@@ -8,9 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GestaoDeEquipamento.Infraestrutura.Memoria\GestaoDeEquipamentos.Infraestrutura.Memoria.csproj" />
     <ProjectReference Include="..\GestaoDeEquipamentos.ConsoleApp\GestaoDeEquipamentos.ConsoleApp.csproj" />
     <ProjectReference Include="..\GestaoDeEquipamentos.Dominio\GestaoDeEquipamentos.Dominio.csproj" />
     <ProjectReference Include="..\GestaoDeEquipamentos.Infraestrutura.Arquivos\GestaoDeEquipamentos.Infraestrutura.Arquivos.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Chamado\" />
   </ItemGroup>
 
 </Project>
